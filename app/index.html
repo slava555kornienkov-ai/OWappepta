@@ -1,12 +1,44 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="MobileOptimized" content="176" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0B1628" />
     <title>Open Waters</title>
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <style>
+      body {
+        background-color: #0B1628;
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Initialize Telegram WebApp
+      if (window.Telegram?.WebApp) {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        // Set header color to match app
+        tg.setHeaderColor('#0B1628');
+        tg.setBackgroundColor('#0B1628');
+        // Enable haptic feedback
+        tg.HapticFeedback.impactOccurred('light');
+        // Set safe area insets as CSS variables
+        document.documentElement.style.setProperty('--tg-safe-area-top', (tg.safeAreaInset?.top || 0) + 'px');
+        document.documentElement.style.setProperty('--tg-safe-area-bottom', (tg.safeAreaInset?.bottom || 0) + 'px');
+        // Hide main button if shown by default
+        tg.MainButton.hide();
+      }
+    </script>
   </body>
 </html>

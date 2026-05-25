@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { User, Gift, Calendar, Tag, MessageCircle } from "lucide-react";
 import { useStore } from "@/store";
+import { useTelegram } from "@/hooks/useTelegram";
 
 const tabs = [
   { id: "profile", label: "Профиль", icon: User },
@@ -13,9 +14,17 @@ const tabs = [
 export default function BottomNav() {
   const activeTab = useStore((s) => s.activeTab);
   const setActiveTab = useStore((s) => s.setActiveTab);
+  const { haptic } = useTelegram();
+
+  const handleTabClick = (tabId: string) => {
+    haptic("light");
+    setActiveTab(tabId);
+  };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#0B1628]/80 backdrop-blur-xl border-t border-[rgba(64,224,208,0.1)] pb-[env(safe-area-inset-bottom)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#0B1628]/80 backdrop-blur-xl border-t border-[rgba(64,224,208,0.1)]"
+      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 8px)" }}
+    >
       <div className="max-w-[480px] mx-auto flex items-center justify-around h-16">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
@@ -24,7 +33,7 @@ export default function BottomNav() {
             <motion.button
               key={tab.id}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => handleTabClick(tab.id)}
               className="flex flex-col items-center justify-center gap-0.5 w-16 h-full relative"
             >
               {isActive && (
